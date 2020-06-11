@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+	<node pkg="avatar" type="movie_2_image.py" name="movie_2_image" output="screen"/>
+	<node pkg="avatar" type="face_finder.py" name="face_finder" output="screen"/>
+	<node pkg="avatar" type="image_2_screen.py" name="image_2_screen" output="screen"/>
+</launch>
