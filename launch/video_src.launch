@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-   <!-- launch video stream -->
-   <include file="$(find video_stream_opencv)/launch/camera.launch">
-        <arg name="video_stream_provider" value="/home/ros/catkin_ws/src/avatar/sample/foo.mov"/>
-        <arg name="loop_videofile" value="true"/>
-        <arg name="visualize" value="true"/>
-   </include>
-</launch>
