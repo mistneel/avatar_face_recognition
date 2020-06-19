@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<node pkg="avatar" type="add_new_face_client.py" name="add_new_face_client" output="screen"/>
-	<node pkg="avatar" type="rebuild_database.py" name="rebuild_database" output="screen"/>
-</launch>
