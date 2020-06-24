@@ -58,7 +58,7 @@ class FaceFinder:
             self._detector = cv2.CascadeClassifier(haar)
         except Exception as e:
             rospy.signal_shutdown(f"face_finder: critical exception during initialization {e}")
-            Return
+            return
         self._json["Unknown"] = {"name": "Unknown"}
 
         self._subscriber = rospy.Subscriber(image_stream, CompressedImage, self.callback,  queue_size = 10)
