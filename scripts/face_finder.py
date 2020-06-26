@@ -64,8 +64,8 @@ class FaceFinder:
         self._subscriber = rospy.Subscriber(image_stream, CompressedImage, self.callback,  queue_size = 10)
         self._publisher = rospy.Publisher(face_stream, FaceArray, queue_size = 10)
         self._detector = cv2.CascadeClassifier(haar)
-        self._iou = iou_param
-        self._VERBOSE = VERBOSE_param
+        self.__iou = iou_param
+        self.__VERBOSE = VERBOSE_param
 
 
     def callback(self, ros_data):
@@ -93,28 +93,28 @@ class FaceFinder:
 
         encodings = face_recognition.face_encodings(rgb, faceboxes)
         
-        Names = []
+        names = []
         
         max_score = 0.45
-        Score = max_score
+        score = max_score
 
         for pos, encoding in enumerate(encodings):
-            Name = "Unknown"
+            name = "Unknown"
             Z = list(face_recognition.face_distance(self._data["encodings"], encoding))
                         
-            if min(Z) < Score:
-                Score = min(Z)
+            if min(Z) < score:
+                score = min(Z)
                 Name = self._data["names"][Z.index(min(Z))]
                 
-                if (Name != "Unknown") and (Name in Names):
+                if (Name != "Unknown") and (Name in names):
                     faceboxes.pop(pos)
                     continue
                     
-            Names.append(Name)
+            names.append(name)
         
 
         if self._VERBOSE:
-            rospy.loginfo(f"face_finder: we found {len(faceboxes)} faces: {Names}")  
+            rospy.loginfo(f"face_finder: we found {len(faceboxes)} faces: {names}")  
         
        
         #generate image parmeter array and publish
@@ -131,7 +131,7 @@ class FaceFinder:
                 msg_raw_image.FaceImg.format = "jpeg"
                 msg_raw_image.FaceImg.data = np.array(cv2.imencode('.jpg', cropped_face)[1]).tostring()
                 
-                msg_raw_image.json.data = JSON.dumps((self._json[Names[i]])) # must be a string
+                msg_raw_image.json.data = JSON.dumps((self._json[names[i]])) # must be a string
                 msg_raw_image.row.data = bottom
                 msg_raw_image.col.data = right
                 msg_raw_image.height.data = top
