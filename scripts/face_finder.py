@@ -22,29 +22,6 @@ from sensor_msgs.msg import CompressedImage
 from std_msgs.msg import String, Bool, Header
 from avatar_face_recognition.msg import Face, FaceArray
 
-def bb_intersection_over_union(boxA, boxB):
-	# determine the (x, y)-coordinates of the intersection rectangle
-        xA = max(boxA[3], boxB[3])
-        yA = max(boxA[0], boxB[0])
-        xB = min(boxA[1], boxB[1])
-        yB = min(boxA[2], boxB[2])
-
-	# compute the area of intersection rectangle
-        interArea = max(0, xB - xA + 1) * max(0, yB - yA + 1) 
-
-	# compute the area of both the prediction and ground-truth
-	# rectangles
-        boxAArea = (boxA[1] - boxA[3]) * (boxA[2] - boxA[0])
-        boxBArea = (boxB[1] - boxB[3]) * (boxB[2] - boxB[0])
-
-	# compute the intersection over union by taking the intersection
-	# area and dividing it by the sum of prediction + ground-truth
-	# areas - the interesection area
-        iou = interArea / float(boxAArea + boxBArea - interArea)
-
-	# return the intersection over union value
-        return iou
-
 class FaceFinder:
     _seq = 0
 
@@ -68,7 +45,7 @@ class FaceFinder:
         self.__VERBOSE = VERBOSE_param
 
 
-    def callback(self, ros_data):
+   def callback(self, ros_data):
         '''Callback function of subscribed topic'''
         rospy.loginfo(f"face_finder: subscribing to {image}")
         np_arr = np.fromstring(ros_data.data, np.uint8)
@@ -88,7 +65,7 @@ class FaceFinder:
             faceboxes.append(boxes[0])
 
         for i, box in enumerate(boxes[:-1]):
-            if bb_intersection_over_union(box, boxes[i+1]) <= self._iou:
+            if self.bb_intersection_over_union(box, boxes[i+1]) <= self._iou:
                 faceboxes.append(boxes[i+1])
 
         encodings = face_recognition.face_encodings(rgb, faceboxes)
@@ -145,6 +122,30 @@ class FaceFinder:
             self._seq = self._seq + 1
             rospy.loginfo(f"face_finder: Transmitting {len(msg_faces_array.faces)} faces")
             self._publisher.publish(msg_faces_array)
+	
+        
+    def bb_intersection_over_union(self, boxA, boxB):
+	# determine the (x, y)-coordinates of the intersection rectangle
+        xA = max(boxA[3], boxB[3])
+        yA = max(boxA[0], boxB[0])
+        xB = min(boxA[1], boxB[1])
+        yB = min(boxA[2], boxB[2])
+
+	# compute the area of intersection rectangle
+        interArea = max(0, xB - xA + 1) * max(0, yB - yA + 1) 
+
+	# compute the area of both the prediction and ground-truth
+	# rectangles
+        boxAArea = (boxA[1] - boxA[3]) * (boxA[2] - boxA[0])
+        boxBArea = (boxB[1] - boxB[3]) * (boxB[2] - boxB[0])
+
+	# compute the intersection over union by taking the intersection
+	# area and dividing it by the sum of prediction + ground-truth
+	# areas - the interesection area
+        iou = interArea / float(boxAArea + boxBArea - interArea)
+
+	# return the intersection over union value
+        return iou
             
 
 if __name__ == '__main__':
