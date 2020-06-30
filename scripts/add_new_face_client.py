@@ -9,7 +9,7 @@
 
 import sys
 import rospy
-from avatar.srv import *
+from avatar_face_recognition.srv import *
 
 def recognize_faces_client():
     rospy.wait_for_service('rebuild_database')
