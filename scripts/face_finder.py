@@ -82,9 +82,9 @@ class FaceFinder:
                         
             if min(Z) < score:
                 score = min(Z)
-                Name = self._data["names"][Z.index(min(Z))]
+                name = self._data["names"][Z.index(min(Z))]
                 
-                if (Name != "Unknown") and (Name in names):
+                if (name != "Unknown") and (name in names):
                     faceboxes.pop(pos)
                     continue
                     
