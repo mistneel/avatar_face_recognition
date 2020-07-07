@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+	<node pkg="avatar_face_recognition" type="movie_2_image.py" name="movie_2_image" output="screen" respawn="true">
+		<param name="movie" value="$(dirname)/../sample/sample.mov" />
+	</node>
+	<node pkg="avatar_face_recognition" type="image_2_screen.py" name="image_2_screen" output="screen" />
+</launch>
