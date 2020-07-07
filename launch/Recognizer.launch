@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<node pkg="avatar_face_recognition" type="movie_2_image.py" name="movie_2_image" output="screen"/>
-	<node pkg="avatar_face_recognition" type="face_finder.py" name="face_finder" output="screen"/>
-	<node pkg="avatar_face_recognition" type="face_2_screen.py" name="face_2_screen" output="screen"/>
-</launch>
