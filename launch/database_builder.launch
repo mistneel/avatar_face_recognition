@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+	<node pkg="avatar_face_recognition" type="add_new_face_client.py" name="add_new_face_client" output="screen"/>
+		
+	<node pkg="avatar_face_recognition" type="rebuild_database.py" name="rebuild_database" output="screen">
+		<param name="dataset" value="$(dirname)/../faces" />
+		<param name="prototxt" value="$(dirname)/../deploy.prototxt" />
+		<param name="weights" value="$(dirname)/../res10_300x300_ssd_iter_140000.caffemodel" />
+		<param name="encodings" value="$(dirname)/../faces.pickle" />
+		<param name="info" value="$(dirname)/../info.json" />
+	</node>
+</launch>
