@@ -62,7 +62,7 @@ class face2screen:
 if __name__ == '__main__':
     '''Initializes and cleanup ros node'''
     rospy.init_node('face2screen', anonymous=False)
-    image = rospy.get_param('~image', '/avatar/results/')
+    image = rospy.get_param('~image', '/mask_detector/faces_with_mask/')
     rospy.loginfo(f"face_2_screen: starting on {image}")
     ic = face2screen(image)
     try:
