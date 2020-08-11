@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     faces = rospy.get_param('~faces', '/face_finder/faces/')
     modelFile = rospy.get_param('~mask_detector', 'mask_detector.model')
-    results = rospy.get_param('~results', '/avatar/results/')
+    results = rospy.get_param('~results', '/mask_detector/faces_with_mask/')
     VERBOSE_val = rospy.get_param('~VERBOSE_val', True)
     
     ic = MaskDetector(faces, modelFile, results, VERBOSE_val)
